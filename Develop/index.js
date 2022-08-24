@@ -1,7 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { writeFile } = require('fs').promises;
 const fileName = 'README.md';
 
 const topics = [
@@ -80,9 +79,9 @@ const promptUser = () => {
 };
 
 // TODO: Create a function to write README file
-function writeToFile(data) {
-    const file = ({ data }) =>
-`# ${projectName} ${badge}
+const writeToFile = ({ projectName, description, installation, usage,
+    license, contribute, test, username, email }) =>
+    `# ${projectName}
 
 ## Description
 
@@ -93,8 +92,8 @@ ${description}
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-- [How to Contribute](#contribute)
-- [Test](#test)
+- [How to Contribute](#contributing)
+- [Tests](#tests)
 - [Questions](#questions)
 
 ## Installation
@@ -109,7 +108,7 @@ ${usage}
 
 ${license}
 
-## How to Contribute
+## Contributing
 
 ${contribute}
 
@@ -119,17 +118,18 @@ ${test}
 
 ## Questions
 
-Github Profile: ${username}
+Github Profile: www.github.com/${username}/  
 For further questions, please reach me via email: ${email}`;
-return file;
-}
+
 
 // TODO: Create a function to initialize app
 function init() {
     promptUser()
-        .then((data) => writeFile(fileName, writeToFile(data)))
-        .then(() => console.log('Successfully wrote to README.md'))
-        .catch((err) => console.error(err));
+        .then((answers) => {
+            const printedPage = writeToFile(answers);
+            fs.writeFile('README.md', printedPage, (err) =>
+                err ? console.log(err) : console.log('Successfully created README.md!'));
+        });
 }
 
 // Function call to initialize app
