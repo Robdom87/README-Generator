@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
-const inquirer = require('inquirer'); 
+const inquirer = require('inquirer');
 const fs = require('fs');
+const { writeFile } = require('fs').promises;
 const fileName = 'README.md';
 
 const topics = [
@@ -30,56 +31,57 @@ const questions = [
 
 const promptUser = () => {
     return inquirer.prompt([
-      {
-        type: 'input',
-        name: topics[0],
-        message: questions[0],
-      },
-      {
-        type: 'input',
-        name: topics[1],
-        message: questions[1],
-      },
-      {
-        type: 'input',
-        name: topics[2],
-        message: questions[2],
-      },
-      {
-        type: 'input',
-        name: topics[3],
-        message: questions[3],
-      },
-      {
-        type: 'input',
-        name: topics[4],
-        message: questions[4],
-      },
-      {
-        type: 'input',
-        name: topics[5],
-        message: questions[5],
-      },
-      {
-        type: 'input',
-        name: topics[6],
-        message: questions[6],
-      },
-      {
-        type: 'input',
-        name: topics[7],
-        message: questions[7],
-      },
-      {
-        type: 'input',
-        name: topics[8],
-        message: questions[8],
-      },
+        {
+            type: 'input',
+            name: topics[0],
+            message: questions[0],
+        },
+        {
+            type: 'input',
+            name: topics[1],
+            message: questions[1],
+        },
+        {
+            type: 'input',
+            name: topics[2],
+            message: questions[2],
+        },
+        {
+            type: 'input',
+            name: topics[3],
+            message: questions[3],
+        },
+        {
+            type: 'input',
+            name: topics[4],
+            message: questions[4],
+        },
+        {
+            type: 'input',
+            name: topics[5],
+            message: questions[5],
+        },
+        {
+            type: 'input',
+            name: topics[6],
+            message: questions[6],
+        },
+        {
+            type: 'input',
+            name: topics[7],
+            message: questions[7],
+        },
+        {
+            type: 'input',
+            name: topics[8],
+            message: questions[8],
+        },
     ]);
-  };
+};
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {
+function writeToFile(data) {
+    const file = ({ data }) =>
 `# ${projectName} ${badge}
 
 ## Description
@@ -118,13 +120,16 @@ ${test}
 ## Questions
 
 Github Profile: ${username}
-For further questions, please reach me via email: ${email}
-`
+For further questions, please reach me via email: ${email}`;
+return file;
 }
 
 // TODO: Create a function to initialize app
 function init() {
     promptUser()
+        .then((data) => writeFile(fileName, writeToFile(data)))
+        .then(() => console.log('Successfully wrote to README.md'))
+        .catch((err) => console.error(err));
 }
 
 // Function call to initialize app
