@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateMarkdown = require('./utils/generateMarkdown');
 const fileName = 'README.md';
 
 const topics = [
@@ -51,9 +52,10 @@ const promptUser = () => {
             message: questions[3],
         },
         {
-            type: 'input',
+            type: 'list',
             name: topics[4],
             message: questions[4],
+            choices: ['MIT','Apache','BSD','None'],
         },
         {
             type: 'input',
@@ -79,49 +81,10 @@ const promptUser = () => {
 };
 
 // TODO: Create a function to write README file
-const writeToFile = ({ projectName, description, installation, usage,
-    license, contribute, test, username, email }) =>
-    `# ${projectName}
-
-## Description
-
-${description}
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [How to Contribute](#contributing)
-- [Tests](#tests)
-- [Questions](#questions)
-
-## Installation
-
-${installation}
-
-## Usage
-
-${usage}
-
-## License
-
-${license}
-
-## Contributing
-
-${contribute}
-
-## Tests
-
-${test}
-
-## Questions
-
-Github Profile: www.github.com/${username}/  
-For further questions, please reach me via email: ${email}`;
-
-
+function writeToFile(data) {
+    return generateMarkdown (data);
+}
+ 
 // TODO: Create a function to initialize app
 function init() {
     promptUser()

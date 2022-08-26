@@ -1,5 +1,7 @@
 # t
 
+![MIT License](https://img.shields.io/badge/license-MIT-green)
+
 ## Description
 
 t
@@ -23,7 +25,8 @@ t
 
 ## License
 
-t
+The application is covered under the MIT license.  
+ https://opensource.org/licenses/MIT 
 
 ## Contributing
 
